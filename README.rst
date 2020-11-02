@@ -44,6 +44,7 @@ created plant provides.
      caes.eta_exergy_cmp(power, pressure) #returns the exergetical compression efficiency
 
 Same methodes apply for the expansion train 
+
 Example: 
 
 .. code:: python
