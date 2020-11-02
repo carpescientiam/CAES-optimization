@@ -10,7 +10,9 @@ Models for compressed air energy storage (CAES)
 
 .. code:: bash
 
-    git clone https://github.com/carpescientiam/CAES-optimizsation-model.git
+   git clone https://github.com/carpescientiam/CAES-optimizsation-model.git
+   
+   
 
  A status message should confirm that all files have been downloaded. Alternatively, the files can be downloaded and extracted to a respective folder.
 
