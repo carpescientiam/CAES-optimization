@@ -14,6 +14,7 @@ Models for compressed air energy storage (CAES)
 
 A status message should confirm that all files have been downloaded.
 Alternatively, the files can be downloaded and extracted to a respective folder.
+
 - Open ``Anaconda Prompt`` and type the following:
 
 .. code:: bash
