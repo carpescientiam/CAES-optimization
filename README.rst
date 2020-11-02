@@ -20,10 +20,10 @@ A status message should confirm that all files have been downloaded. Alternative
 
     pip install -e "C:\path\to\cloned\repository"
 
-A message should confirm the successful installation. Please install all required packages if you are missing some.
+A message should confirm the successful installation. Please install all required packages if needed.
 
 
-2. Run the application
+2.Application use
 -------------------
 
 Run the command line application as described below.
