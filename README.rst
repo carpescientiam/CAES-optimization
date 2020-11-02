@@ -14,12 +14,7 @@ Models for compressed air energy storage (CAES)
 
 A status message should confirm that all files have been downloaded.
 Alternatively, the files can be downloaded and extracted to a respective folder.
-
-
-Install required packages
--------------------------
-
-Open ``Anaconda Prompt`` and type the following:
+- Open ``Anaconda Prompt`` and type the following:
 
 .. code:: bash
 
@@ -27,7 +22,7 @@ Open ``Anaconda Prompt`` and type the following:
 
 A message should confirm the successful installation.
 
-
+- Install required packages
 Run the application
 -------------------
 
