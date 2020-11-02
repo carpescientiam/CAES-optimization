@@ -48,5 +48,5 @@ created plant provides.
     CAES.P_cmp = 100
     coefficients_lp1 = CAES.coefficents_linear_model()
 
-    # fit model for linear representation
-    linear_fit = CAES.fit_cmp()
+3. Optimization
+-------------------
