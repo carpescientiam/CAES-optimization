@@ -33,7 +33,7 @@ Run the command line application as described below.
     from caes.models import*
 
 
-    # create a plant "caes" with the desired configuration and cavern capaicity. If you want to add a recuperator wirte: reduperation=True or leave that attribute empty.
+    # create a diabatic operating plant "caes" with the desired configuration and cavern capaicity. 
     caes = Diabatic(V_cas=310000, P_cmp=60, P_exp=321, recuperation=False)
   
   
