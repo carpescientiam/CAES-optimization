@@ -34,8 +34,9 @@ Run the command line application as described below.
 
 
     # create a plant "caes" with the desired configuration and cavern capaicity.
-    CAES = DiabaticCAES(V_cas=310000, P_cmp=60, P_exp=321, recuperation=False)
-
+    caes = Diabatic(V_cas=310000, P_cmp=60, P_exp=321, recuperation=False)
+  if you want
+  
     # obtain coefficents for linear model
     coefficients_lp1 = CAES.coefficents_linear_model()
 
