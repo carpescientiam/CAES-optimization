@@ -36,16 +36,14 @@ created plant provides.
     # creats a diabatic operating plant "caes" with the desired compression/expansion power and cavern capaicity. 
     caes = Diabatic(V_cas=310000, P_cmp=60, P_exp=321, recuperation=False)
   
-    # methodes of the compression/expansion train:
+    # methodes of the compression train:
     
      caes.massflow_cmp(power, pressure) # returns the air massflow rate for given power and cavern presssure
      caes.temperature_cmp(power, pressure) # returns Tc1 and Tc2 for given power and cavern presssure
      caes.q_cmp(power, pressure) # returns the compression heat and the coefficient e for given power and cavern presssure
      caes.eta_exergy_cmp(power, pressure) #returns the exergetical compression efficiency
 
-.. code:: bash
-A message should confirm the successful installation. Please install all required packages if needed.
-
+Same methodes apply for the expansion train by replacing the index _cmp with _exp: Example: caes.massflow_exp(power,pressure)
 
 
 3. Optimization
