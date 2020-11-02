@@ -1,4 +1,4 @@
-Models for compressed air energy storage (CAES)
+Optimization model of a Compressed Air Energy Storage (CAES)
 ===============================================
 
 1. Installation
