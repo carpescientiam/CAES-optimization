@@ -1,14 +1,12 @@
 Models for compressed air energy storage (CAES)
 ===============================================
 
-Install a Python distribution
+1.Installation
 -----------------------------
 
-See `here <http://www.anaconda.org>`_ for the latest Anaconda version and chose
-one for Python 3.x (64 or 32 bit). Run the installer afterwards.
-
-
-Clone the repository
+- Get a Python distribution. See `here <http://www.anaconda.org>`_ for the latest Anaconda version and chose
+  one for Python 3.x (64 or 32 bit). Run the installer afterwards.
+- Clone the repository
 --------------------
 
 Download and install a `git client <https://git-scm.com/>`_ and clone this
