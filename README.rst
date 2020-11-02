@@ -43,7 +43,8 @@ created plant provides.
      caes.q_cmp(power, pressure) # returns the compression heat and the coefficient e for given power and cavern presssure
      caes.eta_exergy_cmp(power, pressure) #returns the exergetical compression efficiency
 
-Same methodes apply for the expansion train by replacing the index _cmp with _exp: Example: caes.massflow_exp(power,pressure)
+Same methodes apply for the expansion train 
+Example: caes.massflow_exp(power,pressure)
 
 
 3. Optimization
