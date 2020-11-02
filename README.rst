@@ -26,7 +26,7 @@ A message should confirm the successful installation. Please install all require
 2. Application use
 -------------------
 
-The command lines as described below will provide some guidance how to use the model. First it will be shown how you create the plant and secondly which methodes the
+The command lines as described below will provide some guidance how to use the model. It will be shown how you create a plant and which methodes the
 created plant provides.
 
 .. code:: python
