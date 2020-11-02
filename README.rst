@@ -28,12 +28,12 @@ A message should confirm the successful installation. Please install all require
 
 The command lines as described below will provide some guidance how to use the model. It shows how you create a plant and which methodes the
 created plant provides.
+To creat a diabatic operating plant "caes" with the desired compression power of 60 MW, an expansion power of 321 MW and a cavern capacity of 310000 m^3 write: 
 
 .. code:: python
 
     from caes.model import*
-
-    # creats a diabatic operating plant "caes" with the desired compression/expansion power and cavern capaicity. 
+ 
     caes = Diabatic(V_cas=310000, P_cmp=60, P_exp=321, recuperation=False)
  
 Methodes of the compression train:
