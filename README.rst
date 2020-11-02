@@ -36,7 +36,8 @@ To creat a diabatic operating plant "caes" without a recuperator and a compressi
     from caes.model import*
     
     caes = Diabatic(V_cas=310000, P_cmp=60, P_exp=321)
-or
+    
+or if recuperation is not desired
 
 .. code:: python
 
