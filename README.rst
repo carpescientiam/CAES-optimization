@@ -42,7 +42,9 @@ created plant provides.
      caes.temperature_cmp(power, pressure) # returns Tc1 and Tc2 for given power and cavern presssure
      caes.q_cmp(power, pressure) # returns the compression heat and the coefficient e for given power and cavern presssure
      caes.eta_exergy_cmp(power, pressure) #returns the exergetical compression efficiency
-     #the compression train provides the same methodes. just replace the index _cmp with _exp
+
+.. code:: bash
+A message should confirm the successful installation. Please install all required packages if needed.
 
 
 
