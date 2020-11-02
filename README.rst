@@ -65,7 +65,8 @@ In order to run a operation optimization you need additionally two files as prov
 
      caes.optimize('prices_example', 'cost_example', grid_num)
 
-The optimization method firstly executes a polynomic linear fit of the plan characteristics before the optimization itself. The name of your cost and preice files are given as a string and grid_num is a integer defining the nodes of your fit. 
+The optimization method firstly executes a polynomic linear fit of the plan characteristics before the optimization itself. The name of your cost and preice files are given as a string and grid_num is a integer defining the nodes of your fit. To get the polynomic coefficients of your fit run the command:
 
+.. code:: python
 
-
+     caes.coefficents_linear_model(grid_num)
