@@ -23,7 +23,7 @@ A status message should confirm that all files have been downloaded. Alternative
 A message should confirm the successful installation. Please install all required packages if needed.
 
 
-2.Application use
+2. Application use
 -------------------
 
 Run the command line application as described below.
@@ -33,7 +33,7 @@ Run the command line application as described below.
     from caes.models import*
 
 
-    # create setup and calculate coefficients (default is with recuperation)
+    # create a plant "caes" with the desired configuration and cavern capaicity.
     CAES = DiabaticCAES(V_cas=310000, P_cmp=60, P_exp=321, recuperation=False)
 
     # obtain coefficents for linear model
