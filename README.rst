@@ -45,9 +45,10 @@ created plant provides.
 
 Same methodes apply for the expansion train 
 Example: 
+
 .. code:: python
 
-  caes.massflow_exp(power, pressure)
+    caes.massflow_exp(power, pressure)
   
   
 3. Optimization
