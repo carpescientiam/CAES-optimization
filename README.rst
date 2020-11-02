@@ -16,7 +16,7 @@ repository into a folder on your harddisk using the following command:
 
 .. code:: bash
 
-  git clone https://github.com/FahimSadat/CAES-model.git
+  git clone https://github.com/carpescientiam/CAES-optimizsation-model.git
 
 A status message should confirm that all files have been downloaded.
 Alternatively, the files can be downloaded and extracted to a respective folder.
