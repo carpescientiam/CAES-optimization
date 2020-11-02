@@ -26,7 +26,7 @@ A message should confirm the successful installation. Please install all require
 2. Application use
 -------------------
 
-The command lines as described below will provide some guidance how to use the model. It will be shown how you create a plant and which methodes the
+The command lines as described below will provide some guidance how to use the model. It shows how you create a plant and which methodes the
 created plant provides.
 
 .. code:: python
@@ -38,8 +38,11 @@ created plant provides.
     caes = Diabatic(V_cas=310000, P_cmp=60, P_exp=321, recuperation=False)
   
   
-    # obtain coefficents for linear model
-    coefficients_lp1 = CAES.coefficents_linear_model()
+    # methodes of caes for compression:
+     caes.massflow_cmp(power, pressure) # returns the air massflow rate for given power and cavern presssure
+     caes.temperature_cmp(power, pressure) # returns Tc1 and Tc2 for given power and cavern presssure
+     caes.q_cmp(power, pressure) # returns the compression heat and the coefficient e for given power and cavern presssure
+     caes.eta_exergy_cmp(power, pressure) #returns the exergetical compression efficiency
 
     # change setup and re-run calculation
     CAES.P_cmp = 100
