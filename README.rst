@@ -1,7 +1,7 @@
 Models for compressed air energy storage (CAES)
 ===============================================
 
-1.Installation
+1. Installation
 -----------------------------
 
 - Get a Python distribution. See `here <http://www.anaconda.org>`_ for the latest Anaconda version and chose
@@ -20,10 +20,10 @@ A status message should confirm that all files have been downloaded. Alternative
 
     pip install -e "C:\path\to\cloned\repository"
 
-A message should confirm the successful installation.
+A message should confirm the successful installation. Please install all required packages if you are missing some.
 
-- Install required packages
-Run the application
+
+2. Run the application
 -------------------
 
 Run the command line application as described below.
