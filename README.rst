@@ -41,7 +41,7 @@ Run the command line application as described below.
 
 .. code:: python
 
-    from znes_caes_model.models import DiabaticCAES
+    from caes.models import*
 
 
     # create setup and calculate coefficients (default is with recuperation)
