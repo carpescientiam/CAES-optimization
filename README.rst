@@ -58,3 +58,14 @@ Methodes of the compression train:
   
 3. Optimization
 -------------------
+
+In order to run a operation optimization you need additionally two files as provided as "cost_example" and "prices_example". The cost_example file should carry the operation costs. The optimizsation performs based on those provided two files. To run the optimization you need to run the following command:
+
+.. code:: python
+
+     caes.optimize('prices_example', 'cost_example', grid_num)
+
+The optimization method firstly executes a polynomic linear fit of the plan characteristics before the optimization itself. The name of your cost and preice files are given as a string and grid_num is a integer defining the nodes of your fit. 
+
+
+
