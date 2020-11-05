@@ -20,7 +20,7 @@ class CAES:
                                               self.p0, 'air'))
         self.s0 = kwargs.get('s0', CP.PropsSI('SMASS', 'T', self.T0, 'P',
                                               self.p0, 'air'))
-        self.z = kwargs.get('z', 1045)
+        self.z = kwargs.get('z', 600)
         self.g = kwargs.get('g', 9.81)
         self.eta_cmp = kwargs.get('eta_cmp', 0.85)
         self.eta_tur = kwargs.get('eta_tur', 0.9)
@@ -31,12 +31,11 @@ class CAES:
         self.eta_ht = kwargs.get('eta_ht', 0.95)
         self.quality_cmp = kwargs.get('quality_cmp', 0.8)
         self.quality_tur = kwargs.get('quality_tur', 0.7)
-        self.pi_cav_min = kwargs.get('pi_cav_min', 90)
-        self.pi_cav_max = kwargs.get('pi_cav_max', 130)
+        self.pi_cav_min = kwargs.get('pi_cav_min', 40)
+        self.pi_cav_max = kwargs.get('pi_cav_max', 80)
         self.pi_cav_O_0 = kwargs.get('pi_cav_O_0', (self.pi_cav_max-self.pi_cav_min)/2)
         self.pi_loss = kwargs.get('pi_loss', 0.001)
-        
-    
+
     def fit_cmp(self, grid_num):
         """Return numerical fit of the compression mass flow."""
         power = np.linspace(self.P_cmp*0.5, self.P_cmp, grid_num)
@@ -57,8 +56,7 @@ class CAES:
         results['Z'] = Z
 
         return results
-    
-    
+
     def fit_exp(self, grid_num):
         """Return numerical mass flow fit for the expansion."""
         power = np.linspace(self.P_exp*0.5, self.P_exp, grid_num)
@@ -79,8 +77,7 @@ class CAES:
         results['Z'] = Z
 
         return results
-    
-    
+
     def fit_q_comb(self, grid_num):
         """Return numerical fit for combustion."""
         power = np.linspace(self.P_exp*0.5, self.P_exp, grid_num)
@@ -101,7 +98,7 @@ class CAES:
         results['Z'] = Z
 
         return results
-    
+
     def coefficents_linear_model(self, grid_num):
         """Return coefficients for linear approximation."""
         fit_cmp = self.fit_cmp(grid_num)
@@ -119,21 +116,18 @@ class CAES:
         dc['exp_d'] = fit_comb['C_comb'][2]
         dc['exp_e'] = fit_comb['C_comb'][0]
         dc['exp_f'] = fit_comb['C_comb'][1]
-      
-        return dc
-    
 
-        
-    
+        return dc
+
     def optimize(self, el_price, cost, grid_num):
-        
+
         coeff = self.coefficents_linear_model(grid_num)
-        costs = pd.read_csv(cost+'.csv', sep=",",index_col=0).astype(np.float64)
+        costs = pd.read_csv(cost+'.csv', sep=",", index_col=0).astype(np.float64)
         seq = pd.read_csv(el_price+'.csv', index_col=0).astype(np.float64)
-       
+
         m = po.ConcreteModel()
         m.T = po.Set(initialize=seq.index.values)
-        
+
         m.cmp_P_max = po.Param(initialize=self.P_cmp)
         m.cmp_P_min = po.Param(initialize=self.P_cmp*0.5)
         m.cmp_a = po.Param(initialize=coeff['cmp_a'])
@@ -141,13 +135,13 @@ class CAES:
         m.cmp_c = po.Param(initialize=coeff['cmp_c'])
         m.cmp_d = po.Param(initialize=coeff['cmp_d'])
         m.cmp_e = po.Param(initialize=coeff['cmp_e'])
-        
+
         m.C_var_cmp = costs.loc[('c_var_cmp'), 'value']
         m.C_var_exp = costs.loc[('c_var_exp'), 'value']
         m.C_fuel = costs.loc[('c_fuel'), 'value']
         m.C_emi = costs.loc[('c_emi'), 'value']
         m.C_charge = costs.loc[('c_charges'), 'value']
-        
+
         m.exp_P_max = po.Param(initialize=self.P_exp)
         m.exp_P_min = po.Param(initialize=self.P_exp*0.5)
         m.exp_a = po.Param(initialize=coeff['exp_a'])
@@ -156,35 +150,27 @@ class CAES:
         m.exp_d = po.Param(initialize=coeff['exp_d'])
         m.exp_e = po.Param(initialize=coeff['exp_e'])
         m.exp_f = po.Param(initialize=coeff['exp_f'])
-        
+
         m.cas_m0 = po.Param(initialize=self.m_cav_0)
         m.cas_Pi_o_0 = po.Param(initialize=(self.pi_cav_max-self.pi_cav_min)/2)
         m.cas_Pi_min = po.Param(initialize=self.pi_cav_min)
-        m.cas_Pi_o_max = po.Param(initialize= self.pi_cav_max - self.pi_cav_min)
+        m.cas_Pi_o_max = po.Param(initialize=self.pi_cav_max-self.pi_cav_min)
         m.eta = po.Param(initialize=self.pi_loss)
-        
-        m.mkt_C_el = po.Param(m.T, initialize=dict(zip(seq.index.values,
-                                               seq['2030NEPC'].values)))
-        
-       
-        m.cmp_P = po.Var(m.T, domain=po.NonNegativeReals,
-                 bounds=(0, self.P_cmp))
+
+        m.mkt_C_el = po.Param(m.T, initialize=dict(zip(seq.index.values, seq['2030NEPC'].values)))
+        m.cmp_P = po.Var(m.T, domain=po.NonNegativeReals, bounds=(0, self.P_cmp))
         m.cmp_m = po.Var(m.T, domain=po.NonNegativeReals)
         m.cmp_Q = po.Var(m.T, domain=po.NonNegativeReals)
         m.cmp_y = po.Var(m.T, domain=po.Binary)
         m.cmp_z = po.Var(m.T, domain=po.NonNegativeReals)
-        m.exp_P = po.Var(m.T, domain=po.NonNegativeReals,
-                 bounds=(0, self.P_exp))
+        m.exp_P = po.Var(m.T, domain=po.NonNegativeReals, bounds=(0, self.P_exp))
         m.exp_m = po.Var(m.T, domain=po.NonNegativeReals)
         m.exp_Q = po.Var(m.T, domain=po.NonNegativeReals)
         m.exp_y = po.Var(m.T, domain=po.Binary)
         m.exp_z = po.Var(m.T, domain=po.NonNegativeReals)
-        m.cas_Pi_o = po.Var(m.T, domain=po.NonNegativeReals,
-                    bounds=(0, self.pi_cav_max - self.pi_cav_min))
-
+        m.cas_Pi_o = po.Var(m.T, domain=po.NonNegativeReals, bounds=(0, self.pi_cav_max - self.pi_cav_min))
 
         m.profit_test = po.Objective(sense=po.minimize, rule=ru.obj)
-
         m.boundary = po.Constraint(m.T, rule=ru.boundary)
         m.cas_pi = po.Constraint(m.T, rule=ru.cas_pi)
 
@@ -211,25 +197,50 @@ class CAES:
         m.cmp_exp_excl = po.Constraint(m.T, rule=ru.cmp_exp_excl)
 
         opt = SolverFactory('gurobi')
-        opt.options["mipgap"]=0.02
-        results = opt.solve(m, tee=True )
+        opt.options["mipgap"] = 0.10
+        results = opt.solve(m, tee=True)
         m.solutions.load_from(results)
 
+        "post processing"
+
         data = {
-        'cmp_P': [m.cmp_P[t].value for t in m.T],
-        'cmp_Q': [m.cmp_Q[t].value for t in m.T],
-        'cmp_y': [m.cmp_y[t].value for t in m.T],
-        'exp_P': [m.exp_P[t].value for t in m.T],
-        'exp_y': [m.exp_y[t].value for t in m.T],
-        'exp_Q': [m.exp_Q[t].value for t in m.T],
-        'cas_Pi_o': [m.cas_Pi_o[t].value for t in m.T],
-        'cmp_m': [m.cmp_m[t].value for t in m.T],
-        'exp_m': [m.exp_m[t].value for t in m.T]       
-        }
+            'cmp_P': [m.cmp_P[t].value for t in m.T],
+            'cmp_m': [m.cmp_m[t].value for t in m.T],
+            'cmp_Q': [m.cmp_Q[t].value for t in m.T],
+            'cmp_y': [m.cmp_y[t].value for t in m.T],
+            'exp_P': [m.exp_P[t].value for t in m.T],
+            'exp_m': [m.exp_m[t].value for t in m.T],
+            'exp_Q': [m.exp_Q[t].value for t in m.T],
+            'exp_y': [m.exp_y[t].value for t in m.T],
+            'cas_Pi_o': [m.cas_Pi_o[t].value for t in m.T]
+            }
 
         df = pd.DataFrame.from_dict(data)
+        li = []
+        for k in range(df.shape[0]):
+            i = 3
+            o = 7
+            j = 8
+            n = 4
+            if df.iat[k, i] == 1:
+                value = df.iat[k, j]
+                s = (self.exergy_cmp(value+self.pi_cav_min))/10e5
+                li.append(s)
+
+            elif df.iat[k, o] == 1:
+                value = df.iat[k, o]
+                power_a = df.iat[k, n]
+                s = (self.exergy_exp(power_a, value+self.pi_cav_min))/10e5
+                li.append(s)
+            else:
+                s = 0
+                li.append(s)
+
+        df1 = pd.DataFrame(li)
+        df['spec_exergy'] = df1
         df.to_csv('results.csv', sep=',')
-        
+
+
 class Diabatic(CAES):
 
     def __init__(self, V_cas=None, P_cmp=None, P_exp=None, recuperation=True,
@@ -237,9 +248,9 @@ class Diabatic(CAES):
         """Contruct class instance of the parent class."""
         CAES.__init__(self)
         """Contruct class instance."""
-        self.V_cas = V_cas  # m^3
-        self.P_cmp = P_cmp  # MW
-        self.P_exp = P_exp  # MW
+        self.V_cas = V_cas
+        self.P_cmp = P_cmp
+        self.P_exp = P_exp
         self.Hu = kwargs.get('Hu', 52013000)
         self.m_cav_0 = (self.p0*self.V_cas)/(self.R0*self.T0)
         self.recuperation = recuperation
@@ -287,7 +298,6 @@ class Diabatic(CAES):
 
         return mass_flow
 
-
     def q_cmp(self, P_cmp, pi_cav):
         """Return excess heat from compression."""
         h = CP.PropsSI('HMASS', 'T', self.T2_s_exp, 'P', pi_cav*self.p0, 'air')
@@ -297,15 +307,13 @@ class Diabatic(CAES):
 
         return q_cmp, e_cmp
 
-    def eta_exergy_cmp(self, P_cmp, pi_cav):
+    def exergy_cmp(self, pi_cav):
 
         h = CP.PropsSI('HMASS', 'T', self.T2_s_cmp, 'P', pi_cav*self.p0, 'air')
         s = CP.PropsSI('SMASS', 'T', self.T2_s_cmp, 'P', pi_cav*self.p0, 'air')
         e_st = (h-self.h0)-self.T0*(s-self.s0)-self.g*self.z
-        E_st = self.massflow_cmp(P_cmp, pi_cav)*e_st
-        eta_ex = E_st/(P_cmp*10e5)
 
-        return eta_ex
+        return e_st
 
     def temperature_exp(self, P_exp, pi_cav):
         """Return the fluid temperature after each expansion stage."""
@@ -382,7 +390,6 @@ class Diabatic(CAES):
 
         return massflow
 
-
     def q_comb(self, P_exp, pi_cav):
         """Return combustion heat flow within expansion."""
         h2 = CP.PropsSI('HMASS', 'T', self.T2_exp, 'P', pi_cav*self.p0, 'air')
@@ -396,13 +403,30 @@ class Diabatic(CAES):
             h2_rec = CP.PropsSI('HMASS', 'T', self.fuel_ratio(P_exp, pi_cav)[2], 'P', pi_cav*self.p0, 'air')
             delta_h_rec = h2 - h2_rec
             q_comb = self.massflow_exp(P_exp, pi_cav)*((delta_h_rec + delta_h1)/self.eta_comb)/(10e5)
-        else:   
+        else:
             h2_s = CP.PropsSI('HMASS', 'T', self.T2_s_exp, 'P', pi_cav*self.p0, 'air')
             delta_h2 = h2 - h2_s
             q_comb = self.massflow_exp(P_exp, pi_cav)*((delta_h2 + delta_h1)/self.eta_comb)/(10e5)
 
         return q_comb
 
+    def exergy_exp(self, P_exp, pi_cav):
+
+        hT1 = CP.PropsSI('HMASS', 'T', self.T1_exp, 'P', pi_cav*self.p0, 'air')
+        T1_s = self.temperature_exp(P_exp, pi_cav)[0]
+        hT1s = CP.PropsSI('HMASS', 'T', T1_s, 'P', pi_cav*self.p0, 'air')
+        Tm_1 = (self.T1_exp-T1_s)/(np.log((self.T1_exp/T1_s)))
+        eta_c1 = (1-(self.T0/Tm_1))
+        e1 = eta_c1*(hT1-hT1s)
+        hT2 = CP.PropsSI('HMASS', 'T', self.T2_exp, 'P', pi_cav*self.p0, 'air')
+        T2_s = self.fuel_ratio(P_exp, pi_cav)[2]
+        hT2s = CP.PropsSI('HMASS', 'T', T2_s, 'P', pi_cav*self.p0, 'air')
+        Tm_2 = (self.T2_exp-T2_s)/(np.log((self.T2_exp/T2_s)))
+        eta_c2 = (1-(self.T0/Tm_2))
+        e2 = eta_c2*(hT2-hT2s)
+        e_st = self.exergy_cmp(pi_cav) + e2 + self.fuel_ratio(P_exp, pi_cav)[1]*e1
+
+        return e_st
 
     def power_heat_ratio(self, P_exp, pi_cav):
 
@@ -416,13 +440,3 @@ class Diabatic(CAES):
             phr = 0
 
         return phr
-
-
-
-
-    
-    
-# if __name__ == '__main__':
-#     import doctest
-#     doctest.testmod()
-
