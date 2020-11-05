@@ -50,7 +50,7 @@ Methodes of the compression train:
      caes.massflow_cmp(power, pressure) # returns the air massflow rate for given power and cavern presssure
      caes.temperature_cmp(power, pressure) # returns Tc1 and Tc2 for given power and cavern presssure
      caes.q_cmp(power, pressure) # returns the compression heat and the coefficient e for given power and cavern presssure
-     caes.eta_exergy_cmp(power, pressure) #returns the exergetical compression efficiency
+     caes.exergy_cmp(power, pressure) #returns the exergy flow during the compression
 
 Methodes of the compression train:
 
@@ -59,7 +59,7 @@ Methodes of the compression train:
      caes.massflow_exp(power, pressure) 
      caes.temperature_exp(power, pressure) 
      caes.q_comb(power, pressure) # returns the required combustion heat 
-     caes.eta_exergy_exp(power, pressure) 
+     caes.exergy_exp(power, pressure) 
      caes.power_heat_ratio(power, pressure)# returns the ratio: recuperation heat / expansion power
   
 3. Optimization
