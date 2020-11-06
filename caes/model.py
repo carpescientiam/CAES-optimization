@@ -417,13 +417,13 @@ class Diabatic(CAES):
         hT1s = CP.PropsSI('HMASS', 'T', T1_s, 'P', pi_cav*self.p0, 'air')
         Tm_1 = (self.T1_exp-T1_s)/(np.log((self.T1_exp/T1_s)))
         eta_c1 = (1-(self.T0/Tm_1))
-        e1 = eta_c1*(hT1-hT1s)
+        e1 = eta_c1*(hT1-hT1s)/(self.eta_comb)
         hT2 = CP.PropsSI('HMASS', 'T', self.T2_exp, 'P', pi_cav*self.p0, 'air')
         T2_s = self.fuel_ratio(P_exp, pi_cav)[2]
         hT2s = CP.PropsSI('HMASS', 'T', T2_s, 'P', pi_cav*self.p0, 'air')
         Tm_2 = (self.T2_exp-T2_s)/(np.log((self.T2_exp/T2_s)))
         eta_c2 = (1-(self.T0/Tm_2))
-        e2 = eta_c2*(hT2-hT2s)
+        e2 = eta_c2*(hT2-hT2s)/(self.eta_comb)
         e_st = self.exergy_cmp(pi_cav) + e2 + self.fuel_ratio(P_exp, pi_cav)[1]*e1
 
         return e_st
