@@ -10,3 +10,4 @@ from caes.model import*
 
 caes = Diabatic(V_cas=310000, P_cmp=60, P_exp=60)
 caes.optimize('prices_example', 'cost_example', 10)
+

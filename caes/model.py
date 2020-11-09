@@ -197,7 +197,7 @@ class CAES:
         m.cmp_exp_excl = po.Constraint(m.T, rule=ru.cmp_exp_excl)
 
         opt = SolverFactory('gurobi')
-        opt.options["mipgap"] = 0.10
+        opt.options["mipgap"] = 0.02
         results = opt.solve(m, tee=True)
         m.solutions.load_from(results)
 
@@ -412,18 +412,23 @@ class Diabatic(CAES):
 
     def exergy_exp(self, P_exp, pi_cav):
 
-        hT1 = CP.PropsSI('HMASS', 'T', self.T1_exp, 'P', pi_cav*self.p0, 'air')
+        h1 = CP.PropsSI('HMASS', 'T', self.T1_exp, 'P', self.pi_1_exp*self.pi_ex*self.p0, 'air')
+        s1 = CP.PropsSI('SMASS', 'T', self.T1_exp, 'P', self.pi_1_exp*self.pi_ex*self.p0, 'air')
         T1_s = self.temperature_exp(P_exp, pi_cav)[0]
-        hT1s = CP.PropsSI('HMASS', 'T', T1_s, 'P', pi_cav*self.p0, 'air')
-        Tm_1 = (self.T1_exp-T1_s)/(np.log((self.T1_exp/T1_s)))
+        h1s = CP.PropsSI('HMASS', 'T', T1_s, 'P', self.pi_1_exp*self.pi_ex*self.p0, 'air')
+        s1s = CP.PropsSI('SMASS', 'T', T1_s, 'P', self.pi_1_exp*self.pi_ex*self.p0, 'air')
+        Tm_1 = (h1-h1s)/(s1-s1s)
         eta_c1 = (1-(self.T0/Tm_1))
-        e1 = eta_c1*(hT1-hT1s)/(self.eta_comb)
-        hT2 = CP.PropsSI('HMASS', 'T', self.T2_exp, 'P', pi_cav*self.p0, 'air')
-        T2_s = self.fuel_ratio(P_exp, pi_cav)[2]
-        hT2s = CP.PropsSI('HMASS', 'T', T2_s, 'P', pi_cav*self.p0, 'air')
-        Tm_2 = (self.T2_exp-T2_s)/(np.log((self.T2_exp/T2_s)))
+        e1 = eta_c1*(h1-h1s)
+        
+        h2 = CP.PropsSI('HMASS', 'T', self.T2_exp, 'P', pi_cav*self.p0, 'air')
+        s2 = CP.PropsSI('SMASS', 'T', self.T2_exp, 'P', pi_cav*self.p0, 'air')
+        h2s = CP.PropsSI('HMASS', 'T', self.T2_s_exp, 'P', pi_cav*self.p0, 'air')
+        s2s = CP.PropsSI('SMASS', 'T',  self.T2_s_exp , 'P', pi_cav*self.p0, 'air')
+        Tm_2 = (h2-h2s)/(s2-s2s)
         eta_c2 = (1-(self.T0/Tm_2))
-        e2 = eta_c2*(hT2-hT2s)/(self.eta_comb)
+        e2 = eta_c2*(h2-h2s)
+        
         e_st = self.exergy_cmp(pi_cav) + e2 + self.fuel_ratio(P_exp, pi_cav)[1]*e1
 
         return e_st
