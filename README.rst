@@ -26,7 +26,7 @@ A message should confirm the successful installation. Please install all require
 2. Application use
 -------------------
 
-The command lines as described below will provide some guidance how to use the model. It shows how you create a plant and which methodes the
+The command lines as described below will provide some guidance how to use the model. It shows how you can create a plant and which methodes the
 created plant provides.
 
 To creat a diabatic operating plant "caes" without a recuperator and a compression power of 60 MW, an expansion power of 321 MW and a cavern capacity of 310000 m^3 write: 
