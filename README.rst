@@ -65,7 +65,7 @@ Methodes of the expansion train:
 3. Optimization
 -------------------
 
-In order to run an operation optimization additionally two files need to be provided in a format as the files "cost_example" and "prices_example". The cost_example file should carry the operation costs. The optimizsation performs based on those two files. To run the optimization is run the the following command:
+In order to run an operation optimization additionally two files need to be provided in a format as the files "cost_example" and "prices_example". The cost_example file should carry the operation costs. The optimization performs based on those two files. The following command is required to run the optimization:
 
 .. code:: python
 
