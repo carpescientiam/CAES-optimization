@@ -52,7 +52,7 @@ Methodes of the compression train:
      caes.q_cmp(power, pressure) # returns the compression heat and the coefficient e for given power and cavern presssure
      caes.exergy_cmp(pressure) #returns the specific exergy flow stored in the cavern
 
-Methodes of the compression train:
+Methodes of the expansion train:
 
 .. code:: python
 
