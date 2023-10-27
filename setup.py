@@ -8,5 +8,5 @@ setup(
     author_email='fahim.sadat@hs-flensburg.de',
     description='Models for compressed air energy storage (CAES)',
     package_dir={'caes': 'caes'},
-    install_requires=['scipy == 1.0.0', 'numpy >= 1.14.0']
+    install_requires=['scipy == 1.10.0', 'numpy >= 1.14.0']
 )
